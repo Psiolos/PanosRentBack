@@ -49,10 +49,10 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
-        // Εξαγωγή του ρόλου από το authentication
+
         String role = authentication.getAuthorities().iterator().next().getAuthority();
 
-        // Δημιουργία token με username και role
+
         String token = jwtUtil.generateToken(authentication.getName(), role);
 
         System.out.println("Generated JWT: " + token);
@@ -71,11 +71,11 @@ public class AuthController {
         // Δημιουργία ενός cookie με το ίδιο όνομα ("jwt") για overwrite
         Cookie cookie = new Cookie("jwt", "");
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // να αλλαχθεί σε true σε παραγωγή
+        cookie.setSecure(false); // kai afto prepei na to allaksw opws to panw
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Ορίζει το cookie να λήξει άμεσα
+        cookie.setMaxAge(0);
 
-        // Προσθήκη του cookie στην απόκριση
+
         response.addCookie(cookie);
 
         return ResponseEntity.ok("Logout successful");
@@ -135,7 +135,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Username not found in token");
             }
 
-            // Βρίσκουμε το Account με το username
+
             Optional<Account> accountOptional = accountService.findByUsername(username);
             if (accountOptional.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found for username: " + username);
@@ -174,6 +174,50 @@ public class AuthController {
         }
     }
 
+
+    @PostMapping("/update-points")
+    public ResponseEntity<?> updatePoints(
+            @CookieValue("jwt") String token,
+            @RequestBody Map<String, Integer> payload) {
+        try {
+            Claims claims = jwtUtil.parseToken(token);
+            String username = claims.getSubject();
+
+            int pointsChange = payload.getOrDefault("points", 0);
+
+            if (pointsChange < 0) {
+                return ResponseEntity.badRequest().body("Points change cannot be negative.");
+            }
+
+
+            accountService.updatePoints(username, pointsChange);
+
+            return ResponseEntity.ok("{\"message\": \"Points updated successfully\"}");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (JwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating points: " + e.getMessage());
+        }
+    }
+
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteAccount(@PathVariable Long id) {
+        try {
+            Optional<Account> accountOptional = accountService.findById(id);
+            if (accountOptional.isPresent()) {
+                accountService.deleteAccountById(id);
+                return ResponseEntity.ok("Account deleted successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting account: " + e.getMessage());
+        }
+    }
 
 }
 

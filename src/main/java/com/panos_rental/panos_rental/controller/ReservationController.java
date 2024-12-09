@@ -91,7 +91,7 @@ public class ReservationController {
     public ResponseEntity<List<ReservationRequest>> getReservationsByCarId(@PathVariable int carId) {
         List<Reservation> reservations = reservationService.findReservationsByCarId(carId);
 
-        // Χαρτογράφηση από Reservation σε ReservationRequest
+
         List<ReservationRequest> reservationRequests = reservations.stream().map(reservation -> {
             ReservationRequest dto = new ReservationRequest();
             dto.setId(reservation.getId());
@@ -171,7 +171,7 @@ public class ReservationController {
             return ResponseEntity.notFound().build();
         }
 
-        // Mapping Car to CarDTO
+
         CarDTO carDTO = new CarDTO();
         carDTO.setId(car.getId());
         carDTO.setBrand(car.getBrand());

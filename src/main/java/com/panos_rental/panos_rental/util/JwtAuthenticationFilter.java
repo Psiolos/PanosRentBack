@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = null;
 
-        // Ανάγνωση του JWT από τα cookies
+
         if (request.getCookies() != null) {
             for (var cookie : request.getCookies()) {
                 if ("jwt".equals(cookie.getName())) {
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // Εάν το JWT υπάρχει και δεν έχει ήδη οριστεί authentication
+
         if (jwt != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 Claims claims = jwtUtil.parseToken(jwt);
@@ -48,15 +48,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String role = claims.get("role", String.class);
 
                 if (username != null) {
-                    // Δημιουργία των αρχών (authorities)
+
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
 
-                    // Δημιουργία αντικειμένου authentication
+
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                    // Θέσε το authentication στο SecurityContext
+
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             } catch (Exception e) {
@@ -76,6 +76,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         return path.startsWith("/auth/") || path.startsWith("/reservations/available-cars") || path.startsWith("/reservations/create")
-                || path.startsWith("/clients/create-or-get") || path.startsWith ("/cars/all-cars");
+                || path.startsWith("/clients/create-or-get") ;
     }
 }

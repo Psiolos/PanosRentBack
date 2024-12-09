@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173") // Το URL του frontend
+                        .allowedOrigins("http://localhost:5173") //gia to cors eunai to frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Εξυπηρετεί τα αρχεία από τον φάκελο uploads
+
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:uploads/");
     }

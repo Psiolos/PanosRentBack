@@ -20,7 +20,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Απενεργοποίηση CSRF
                 .authorizeHttpRequests(authz -> authz
 
-                        //edw ta / poy einai gia to login kai sxetika me to auth
+                        //edw ta / poy einai gia to login kai sxetika me to authηη
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/auth/login").permitAll() // free prosvasi login
                         .requestMatchers("/auth/userinfo").permitAll()
@@ -30,13 +30,16 @@ public class SecurityConfig {
                         //edw ta endpoints mono gia ton admin
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/clients/all").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/reservations/all").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/cars/find-by-license-plate/{licensePlate}").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/cars/{carId}/availability").hasAuthority("ROLE_ADMIN")
 
 
 
 
                         .anyRequest().permitAll() // ta ypoloipa endpoints xwirs authenticate
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Προσθήκη φίλτρου
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -48,6 +51,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // Χρησιμοποιούμε τον NoOpPasswordEncoder
+        return NoOpPasswordEncoder.getInstance();
     }
 }

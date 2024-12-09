@@ -19,7 +19,7 @@ public class ReservationRequest {
     private boolean superInsurance;
     private CarDTO car;
 
-    // Getters και Setters
+
 
 
     public Integer getId() {

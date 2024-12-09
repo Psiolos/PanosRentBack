@@ -39,7 +39,7 @@ public class CarService {
     }
 
     public List<Car> findAllCars() {
-        return carRepository.findAll(); // Βεβαιωθείτε ότι η findAll() επιστρέφει όλα τα αυτοκίνητα
+        return carRepository.findAll();
     }
 
     public Car findById(int id) {
@@ -80,7 +80,7 @@ public class CarService {
         return carOpt;
     }
 
-    // Διαγραφή αυτοκινήτου χωρίς διαγραφή των κρατήσεων
+
     public boolean deleteCar(int carId) {
         if (carRepository.existsById(carId)) {
             carRepository.deleteById(carId);
@@ -93,12 +93,12 @@ public class CarService {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Car with ID " + id + " not found"));
 
-        car.setStatus(CarStatus.retired); // Υποθέτουμε ότι το πεδίο `status` υπάρχει ως String ή Enum στην οντότητα Car
+        car.setStatus(CarStatus.retired); // Apo retire den ginetai ksana available
         carRepository.save(car);
     }
 
     public Optional<Car> findByLicensePlate(String licensePlate) {
         return carRepository.findByLicensePlate(licensePlate);
     }
-    // Μπορείς να προσθέσεις περισσότερες μεθόδους ανάλογα με τις ανάγκες σου
+
 }

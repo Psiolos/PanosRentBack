@@ -8,7 +8,7 @@ public class RegisterRequest {
     private String tel;
     private String idCard;
 
-    // Getters and Setters
+
     public String getUsername() {
         return username;
     }

@@ -40,7 +40,7 @@ public class Reservation {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    // Getters and Setters
+
 
 
     public Integer getId() {

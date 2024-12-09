@@ -70,6 +70,7 @@ public class ClientController {
         }
     }
 
+    //gia dokimi na to vgalw an den to 8elw
     @GetMapping("/{clientId}/reservationss")
     public List<Reservation> getClientReservations(@PathVariable int clientId) {
         return reservationService.findReservationsByClientId(clientId);

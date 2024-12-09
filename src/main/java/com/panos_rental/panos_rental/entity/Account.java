@@ -30,7 +30,7 @@ public class Account {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
-    // Getters and setters
+
     public Long getId() {
         return id;
     }

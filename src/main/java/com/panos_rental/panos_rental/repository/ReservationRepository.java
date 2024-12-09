@@ -13,6 +13,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     List<Reservation> findByClientId(int clientId);
     List<Reservation> findByCarId(int carId);
 
+
+   //afto kata thn krathsh kai oxi prin
     @Query("SELECT COUNT(r) FROM Reservation r WHERE r.car.id = :carId AND r.status = 'confirmed' " +
             "AND (:startDate <= r.endDate AND :endDate >= r.startDate)")
     int countConflictingReservations(int carId, LocalDate startDate, LocalDate endDate);

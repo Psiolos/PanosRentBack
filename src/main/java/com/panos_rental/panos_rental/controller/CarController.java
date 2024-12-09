@@ -20,7 +20,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    // Αποθήκευση αυτοκινήτου με φωτογραφία
+
     @PostMapping("/add")
     public ResponseEntity<Car> addCarWithPhoto(
             @ModelAttribute Car car,
@@ -39,7 +39,7 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
-    // Ενημέρωση τιμής αυτοκινήτου
+
     @PutMapping("/{carId}/price")
     public ResponseEntity<Car> updateCarPrice(@PathVariable int carId, @RequestBody Map<String, BigDecimal> request) {
         BigDecimal newPrice = request.get("price");
@@ -47,20 +47,21 @@ public class CarController {
         return updatedCar.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Ενημέρωση διαθεσιμότητας αυτοκινήτου
+
     @PutMapping("/{carId}/availability")
     public ResponseEntity<Car> toggleCarAvailability(@PathVariable int carId) {
         Car car = carService.findById(carId);
         if (car != null) {
-            // Toggle the availability
+
             car.setAvailable(!car.getAvailable());
-            carService.saveCar(car);  // Αποθήκευση της νέας κατάστασης
+            carService.saveCar(car);
             return ResponseEntity.ok(car);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-    // Διαγραφή αυτοκινήτου χωρίς διαγραφή κρατήσεων
+
+
     @DeleteMapping("/{carId}")
     public ResponseEntity<Void> deleteCar(@PathVariable int carId) {
         boolean deleted = carService.deleteCar(carId);

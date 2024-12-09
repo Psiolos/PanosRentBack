@@ -33,5 +33,28 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public void updatePoints(String username, int points) {
+        Optional<Account> accountOptional = accountRepository.findByUsername(username);
+        if (accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+            if (points < 0) {
+                throw new IllegalArgumentException("Points cannot be negative");
+            }
+            account.setPoints(points);
+            accountRepository.save(account);
+        } else {
+            throw new IllegalArgumentException("Account not found");
+        }
+    }
+
+    public Optional<Account> findById(Long id) {
+        return accountRepository.findById(id);
+    }
+
+    public void deleteAccountById(Long id) {
+        accountRepository.deleteById(id);
+    }
+
+
 
 }

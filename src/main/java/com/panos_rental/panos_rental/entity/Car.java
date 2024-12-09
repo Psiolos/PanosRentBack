@@ -43,7 +43,7 @@ public class Car {
 
     @Column(name = "horsepower")
     private int horsepower;
-    // Getters and Setters
+
 
 
     public Integer getId() {
