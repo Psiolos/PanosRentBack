@@ -17,7 +17,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Απενεργοποίηση CSRF
+                .csrf(csrf -> csrf.disable()) 
                 .authorizeHttpRequests(authz -> authz
 
                         //edw ta / poy einai gia to login kai sxetika me to authηη
